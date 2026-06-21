@@ -1,0 +1,2955 @@
+/* ═══════════════════════════════════════════════════════════════
+   HYDROSMART — Premium Dashboard & Mobile UI Redesign
+   Modern Glassmorphism, Harmonious Color Palettes & Premium Micro-Animations
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Reset & Base Styles ────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color Palette - Premium Light Dashboard */
+  --bg-main: #f3f5f8;
+  --bg-sidebar: #111827; /* Dark sidebar for visual contrast */
+  --bg-panel: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9fafb;
+  
+  --border-color: rgba(229, 231, 235, 0.8);
+  --border-accent: #10b981;
+  --border-hover: rgba(16, 185, 129, 0.3);
+
+  /* Brand Accents */
+  --primary: #10b981; /* Emerald Green */
+  --primary-hover: #059669;
+  --primary-light: #d1fae5;
+  --primary-glow: rgba(16, 185, 129, 0.12);
+  
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --blue-glow: rgba(59, 130, 246, 0.1);
+  
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --amber-glow: rgba(245, 158, 11, 0.1);
+  
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --red-glow: rgba(239, 68, 68, 0.1);
+
+  /* Text Colors */
+  --text-main: #1f2937;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --text-muted: #6b7280;
+
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  
+  /* Borders & Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 150ms var(--ease-out);
+  --transition-base: 250ms var(--ease-out);
+  --transition-slow: 400ms var(--ease-out);
+}
+
+body {
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.6);
+}
+
+/* ── Container Modes ── */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.app-header {
+  height: 70px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 50;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #10b981, #059669);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.brand-name span {
+  color: var(--primary);
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* View Mode Toggles */
+.view-mode-selector {
+  display: flex;
+  background: #e5e7eb;
+  padding: 4px;
+  border-radius: var(--radius-md);
+}
+
+.view-mode-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.view-mode-btn.active {
+  background: white;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.system-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.status-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+  position: relative;
+}
+
+.status-indicator-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--primary);
+  animation: pulse-ring 2s infinite ease-out;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── Desktop Dashboard Layout ── */
+.desktop-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100vh - 70px);
+}
+
+/* Sidebar navigation */
+.desktop-sidebar {
+  width: 80px;
+  background: var(--bg-sidebar);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+  gap: 20px;
+  z-index: 40;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav-item {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  border: none;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.sidebar-nav-item.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.sidebar-divider {
+  width: 32px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+}
+
+/* Main Content Wrapper */
+.desktop-content {
+  flex: 1;
+  background: var(--bg-main);
+  overflow-y: auto;
+  padding: 24px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   VIEW: OVERVIEW TAB (Image 2 style)
+   ───────────────────────────────────────────────────────────── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr 1fr;
+  gap: 24px;
+  height: 100%;
+}
+
+.overview-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Dashboard Panel Cards */
+.panel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.panel-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.panel-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-card-subtitle {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-top: -12px;
+}
+
+/* Weather Widget */
+.weather-widget {
+  position: relative;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.65) 100%), url('/images/muntinlupa-bg.jpg') center center / cover no-repeat;
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.weather-widget .weather-location {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 700;
+}
+
+.weather-widget .weather-date {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.weather-widget .weather-temp {
+  color: white !important;
+  font-weight: 800;
+}
+
+.weather-widget .weather-temp-unit {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.weather-widget .weather-desc {
+  color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.18);
+  padding: 3px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  display: inline-block;
+}
+
+.weather-widget .weather-minmax {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.weather-widget .garden-info-banner {
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.weather-widget .garden-banner-label {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.weather-widget .garden-banner-val {
+  color: white !important;
+}
+
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.weather-location {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.weather-date {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.weather-temp-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.weather-temp {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.weather-temp-unit {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.weather-icon-desc {
+  text-align: right;
+}
+
+.weather-icon-symbol {
+  font-size: 32px;
+  margin-bottom: 2px;
+}
+
+.weather-desc {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.weather-minmax {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* Sub-info banner inside weather widget */
+.garden-info-banner {
+  margin-top: 10px;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.garden-banner-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.garden-banner-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.garden-banner-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* 6-Parameters Grid */
+.parameters-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.param-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.param-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+}
+
+/* Image style specific cards (e.g. green fill for Plant Health) */
+.param-card.health-premium {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+}
+
+.param-card.health-premium .param-label,
+.param-card.health-premium .param-info {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.param-card.health-premium .param-value {
+  color: white;
+}
+
+.param-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.param-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.param-icon {
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+}
+
+.param-card.health-premium .param-icon {
+  color: white;
+}
+
+.param-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.param-info {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+/* Device Management List */
+.devices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.device-row {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color var(--transition-fast);
+}
+
+.device-row:hover {
+  border-color: var(--primary);
+}
+
+.device-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.device-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.device-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.device-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.device-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.device-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.device-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.device-status-dot.active {
+  background: var(--primary);
+  box-shadow: 0 0 6px var(--primary);
+}
+
+.device-status-dot.warn {
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber);
+}
+
+.device-row.warning-state {
+  border-left: 3px solid var(--amber);
+}
+
+.device-row.warning-state .device-sub {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+/* CCTV Panel */
+.cctv-viewer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #000000;
+}
+
+.cctv-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.cctv-overlay {
+  position: absolute;
+  inset: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 40%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+}
+
+.cctv-top-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.cctv-rec-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.cctv-rec-dot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: blink-cctv 1s infinite alternate;
+}
+
+@keyframes blink-cctv {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.cctv-controls {
+  pointer-events: auto;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.cctv-btn {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.cctv-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Task Manager Panel */
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.task-progress-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 3px;
+  transition: width var(--transition-base);
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-item {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background: white;
+  transition: background var(--transition-fast);
+}
+
+.task-item:hover {
+  background: var(--bg-card-hover);
+}
+
+.task-item-left {
+  display: flex;
+  gap: 12px;
+}
+
+.task-checkbox-wrapper {
+  margin-top: 2px;
+}
+
+.task-checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: white;
+}
+
+.task-checkbox.checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: color var(--transition-fast);
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: var(--text-tertiary);
+}
+
+.task-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.task-time {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   VIEW: GREENHOUSE MAP TAB (Image 1 style)
+   ───────────────────────────────────────────────────────────── */
+.map-view-container {
+  display: grid;
+  grid-template-columns: 340px 1fr 340px;
+  gap: 24px;
+  height: 100%;
+}
+
+.map-left-panel,
+.map-right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+/* Sections List (Left Panel) */
+.overall-health-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overall-health-number {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.overall-health-details {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.overall-health-badge {
+  background: var(--primary-light);
+  color: var(--primary-hover);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.overall-health-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.sections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-item-row {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.section-item-row:hover,
+.section-item-row.active {
+  border-color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.section-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.section-item-crop {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.section-health-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.section-health-badge.good {
+  background: var(--primary-light);
+  color: var(--primary-hover);
+}
+
+.section-health-badge.warning {
+  background: var(--amber-light);
+  color: var(--amber);
+}
+
+.section-health-badge.critical {
+  background: var(--red-light);
+  color: var(--red);
+}
+
+/* Interactive Map Canvas (Center Panel) */
+.map-canvas-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-canvas-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.map-view-toggle {
+  display: flex;
+  background: #f3f4f6;
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.map-toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.map-toggle-btn.active {
+  background: white;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-canvas-view {
+  flex: 1;
+  position: relative;
+  background: #e5e7eb;
+}
+
+.map-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hotspot Overlays on the Map */
+.map-hotspot {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  font-size: 10px;
+  font-weight: 800;
+  transition: all var(--transition-fast);
+  border: 2px solid var(--primary);
+  z-index: 10;
+}
+
+.map-hotspot.active {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.2);
+  box-shadow: 0 0 15px var(--primary);
+}
+
+.map-hotspot.health-warning {
+  border-color: var(--amber);
+}
+
+.map-hotspot.health-critical {
+  border-color: var(--red);
+}
+
+.map-hotspot.active.health-warning {
+  background: var(--amber);
+  box-shadow: 0 0 15px var(--amber);
+}
+
+.map-hotspot.active.health-critical {
+  background: var(--red);
+  box-shadow: 0 0 15px var(--red);
+}
+
+.map-hotspot-label {
+  position: absolute;
+  bottom: -22px;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Section Detail Sidebar (Right Panel) */
+.section-drawer-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+}
+
+.drawer-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.drawer-subtitle {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.drawer-close-btn {
+  background: #f3f4f6;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.drawer-close-btn:hover {
+  background: #e5e7eb;
+}
+
+.drawer-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.drawer-stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.drawer-stat-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.drawer-stat-value.health-text {
+  color: var(--primary);
+}
+
+.drawer-stat-value.health-text.warning {
+  color: var(--amber);
+}
+
+.drawer-stat-value.health-text.critical {
+  color: var(--red);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE DEVICE SIMULATOR SHELL
+   ───────────────────────────────────────────────────────────── */
+.mobile-simulator-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 24px;
+  background: #e5e7eb;
+  overflow-y: auto;
+}
+
+.phone-theme-toggle {
+  position: absolute;
+  top: 90px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phone-toggle-option {
+  border: none;
+  background: white;
+  padding: 10px 16px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.phone-toggle-option.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+/* iPhone Shell Container */
+.mobile-phone-shell {
+  width: 375px;
+  height: 760px;
+  background: #000;
+  border: 12px solid #222;
+  border-radius: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Front Camera Notch */
+.mobile-phone-notch {
+  width: 110px;
+  height: 24px;
+  background: #222;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+/* iOS simulated status bar */
+.simulated-status-bar {
+  height: 38px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 24px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-main);
+  z-index: 90;
+  position: relative;
+}
+
+/* Dark Mode status text */
+.phone-dark-mode .simulated-status-bar {
+  color: white;
+}
+
+.simulated-status-bar-right {
+  display: flex;
+  gap: 6px;
+}
+
+/* Scrollable screen container */
+.simulated-screen-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Bottom Nav in Simulator */
+.simulated-bottom-nav {
+  height: 64px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 8px;
+  z-index: 90;
+}
+
+.simulated-nav-item {
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+}
+
+.simulated-nav-item.active {
+  color: var(--primary);
+}
+
+.simulated-nav-label {
+  font-size: 9px;
+  font-weight: 600;
+}
+
+/* ── Mobile Dark Glassmorphic UI (Image 2 style) ── */
+.phone-dark-mode {
+  background: #0f172a;
+  --bg-main: #090d16;
+  --bg-panel: rgba(15, 23, 42, 0.85);
+  --bg-card: rgba(30, 41, 59, 0.45);
+  --bg-card-hover: rgba(255, 255, 255, 0.04);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
+}
+
+.phone-dark-mode .simulated-screen-content {
+  background: radial-gradient(circle at top, rgba(16, 185, 129, 0.15) 0%, #090d16 80%);
+  padding: 16px;
+  gap: 16px;
+}
+
+.phone-dark-mode .simulated-bottom-nav {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(10px);
+  border-color: rgba(255,255,255,0.06);
+}
+
+.phone-dark-mode .simulated-nav-item.active {
+  color: var(--primary);
+}
+
+/* Glass Cards for Dark Simulator */
+.glass-panel-card {
+  background: var(--bg-panel);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.phone-dark-mode .glass-panel-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  box-shadow: none;
+}
+
+.glass-weather-widget {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+}
+
+.glass-weather-location {
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.glass-weather-date {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+}
+
+.glass-weather-temp {
+  font-size: 54px;
+  font-weight: 800;
+  color: white;
+  margin-top: 10px;
+  line-height: 1;
+}
+
+.glass-weather-desc {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: 4px;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+/* Row of quick conditions in Dark App */
+.glass-conditions-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.glass-condition-pill {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.phone-dark-mode .glass-condition-pill {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+.glass-condition-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.phone-dark-mode .glass-condition-label {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.glass-condition-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.phone-dark-mode .glass-condition-value {
+  color: white;
+}
+
+/* Dark Mode General UI Overrides for all Simulator screens */
+.phone-dark-mode .mobile-title,
+.phone-dark-mode .greenhouse-select-title,
+.phone-dark-mode .crop-mobile-name,
+.phone-dark-mode .crop-detail-title,
+.phone-dark-mode .crop-detail-metric-value,
+.phone-dark-mode .watering-schedule-title,
+.phone-dark-mode .growth-title,
+.phone-dark-mode .simulated-screen-content h3,
+.phone-dark-mode .simulated-screen-content h4 {
+  color: #f8fafc;
+}
+
+.phone-dark-mode .mobile-subtitle,
+.phone-dark-mode .greenhouse-select-count,
+.phone-dark-mode .crop-mobile-species,
+.phone-dark-mode .crop-detail-species,
+.phone-dark-mode .crop-detail-metric-label,
+.phone-dark-mode .crop-detail-metric-sub,
+.phone-dark-mode .watering-day-letter,
+.phone-dark-mode .growth-period-btn,
+.phone-dark-mode .simulated-screen-content p {
+  color: #94a3b8;
+}
+
+/* Card Styling for Simulator in both modes */
+.greenhouse-select-card,
+.crop-mobile-row,
+.crop-detail-metric-card,
+.watering-schedule-card,
+.growth-curve-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-main) !important;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.phone-dark-mode .greenhouse-select-card,
+.phone-dark-mode .crop-mobile-row,
+.phone-dark-mode .crop-detail-metric-card,
+.phone-dark-mode .watering-schedule-card,
+.phone-dark-mode .growth-curve-card {
+  background: rgba(30, 41, 59, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(12px);
+  box-shadow: none;
+}
+
+.phone-dark-mode .crop-mobile-row:hover,
+.phone-dark-mode .crop-mobile-row.active {
+  border-color: var(--primary) !important;
+  background: rgba(16, 185, 129, 0.15) !important;
+}
+
+.phone-light-mode .crop-mobile-row.active {
+  border-color: var(--primary) !important;
+  background: rgba(16, 185, 129, 0.05) !important;
+}
+
+.watering-day-btn {
+  background: var(--bg-panel) !important;
+  border-color: var(--border-color) !important;
+}
+
+.watering-day-btn.active {
+  background: var(--blue-glow) !important;
+  border-color: var(--blue) !important;
+}
+
+.phone-dark-mode .watering-day-btn {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.phone-dark-mode .watering-day-btn.active {
+  background: rgba(59, 130, 246, 0.18) !important;
+  border-color: var(--blue) !important;
+}
+
+.phone-dark-mode .crop-mobile-status-pill,
+.phone-dark-mode .crop-detail-badge-pill {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+}
+
+.phone-dark-mode .simulated-bottom-nav {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.phone-dark-mode .growth-toggle-period {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.phone-dark-mode .growth-period-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Muntinlupa City Weather Widget Background Card */
+.sim-weather-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 22px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.65) 100%), url('/images/muntinlupa-bg.jpg') center center / cover no-repeat;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  text-align: center;
+  flex-shrink: 0;
+  min-height: 160px;
+}
+
+.sim-weather-card span,
+.sim-weather-card div,
+.sim-weather-card p {
+  color: white !important;
+}
+
+/* HydroSmart About Card - dark mode overrides */
+.phone-dark-mode .hydrosmart-about-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.phone-dark-mode .hydrosmart-about-card span,
+.phone-dark-mode .hydrosmart-about-card b {
+  color: #f8fafc !important;
+}
+
+.phone-dark-mode .hydrosmart-about-card p {
+  color: #94a3b8 !important;
+}
+
+.phone-dark-mode .hydrosmart-about-card .feature-pill {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #94a3b8 !important;
+}
+
+
+
+/* Premium Buttons for Simulator */
+.sim-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.sim-btn:hover {
+  background: var(--bg-card-hover);
+}
+
+.phone-dark-mode .sim-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.phone-dark-mode .sim-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Custom iOS switch style */
+.sim-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+}
+
+.sim-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sim-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #cbd5e1;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.sim-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+input:checked + .sim-slider {
+  background-color: var(--primary);
+}
+
+input:checked + .sim-slider:before {
+  transform: translateX(18px);
+}
+
+.phone-dark-mode .sim-slider {
+  background-color: #475569;
+}
+
+/* ── Mobile Light Hydroponic UI (Image 3 style) ── */
+.phone-light-mode {
+  background: #f8fafc;
+  --bg-main: #f1f5f9;
+  --bg-panel: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --border-color: rgba(229, 231, 235, 0.8);
+  --text-main: #1f2937;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --text-muted: #6b7280;
+}
+
+.phone-light-mode .simulated-screen-content {
+  padding: 18px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.phone-light-mode .simulated-bottom-nav {
+  background: white;
+  border-color: rgba(0,0,0,0.06);
+}
+
+.phone-light-mode .simulated-nav-item.active {
+  color: var(--primary);
+}
+
+/* Screen Title Header (e.g. "Hydroponic Monitor") */
+.mobile-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.mobile-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.mobile-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Greenhouse drop-down card in mobile list */
+.greenhouse-select-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.greenhouse-select-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.greenhouse-select-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.greenhouse-select-count {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.greenhouse-avatar-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  gap: 4px;
+}
+
+/* Crops grid inside Screen 1 */
+.crops-list-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.crop-mobile-row {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.crop-mobile-row:hover,
+.crop-mobile-row.active {
+  border-color: var(--primary);
+  transform: scale(1.02);
+  box-shadow: var(--shadow-md);
+}
+
+.crop-mobile-row-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.crop-mobile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.crop-mobile-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.crop-mobile-species {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.crop-mobile-status-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 14px;
+}
+
+/* Screen 2: Crop Detail Hero */
+.crop-detail-hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.crop-detail-img-container {
+  width: 100%;
+  height: 190px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.crop-detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.crop-detail-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.crop-detail-species {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: -6px;
+}
+
+.crop-detail-badge-pill {
+  background: var(--primary-light);
+  color: var(--primary-hover);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* Detail stats metrics */
+.crop-detail-metrics-row {
+  display: flex;
+  gap: 10px;
+}
+
+.crop-detail-metric-card {
+  flex: 1;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.crop-detail-metric-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.crop-detail-metric-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-top: 4px;
+}
+
+.crop-detail-metric-sub {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Watering schedule card image 3 */
+.watering-schedule-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.watering-schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.watering-schedule-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.watering-days-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.watering-day-btn {
+  flex: 1;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.watering-day-letter {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.watering-day-btn.active {
+  background: var(--blue-glow);
+  border-color: var(--blue);
+}
+
+.watering-day-btn.active .watering-day-letter {
+  color: var(--blue);
+}
+
+.watering-droplet {
+  font-size: 9px;
+}
+
+/* Screen 3: Growth curves cards (Image 3 right layout) */
+.growth-curve-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.growth-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.growth-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.growth-toggle-period {
+  display: flex;
+  background: #f3f4f6;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.growth-period-btn {
+  border: none;
+  background: transparent;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.growth-period-btn.active {
+  background: white;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.growth-sprout-progress-badge {
+  background: #f0fdf4;
+  border: 1px solid #d1fae5;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.phone-dark-mode .growth-sprout-progress-badge {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.growth-sprout-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-hover);
+}
+
+.phone-dark-mode .growth-sprout-text {
+  color: #34d399 !important;
+}
+
+/* ── Utilities ── */
+.fade-in {
+  animation: fade-in 400ms var(--ease-out) forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Redesigned Content Banner Widgets (Image Mockup style) ── */
+
+/* Redesigned 2-column Grid */
+.dashboard-redesign-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.dashboard-redesign-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Redesigned Notification Banner */
+.dashboard-notification-banner {
+  background: #a2c579; /* Soft lime-olive green matching mockup */
+  border: 1px solid #8eaf67;
+  border-radius: var(--radius-lg);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 4px;
+}
+
+.notif-banner-badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.notif-banner-days {
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+}
+
+.notif-banner-days-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.notif-banner-divider {
+  width: 1.5px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 20px;
+}
+
+.notif-banner-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+.notif-banner-icon-bg {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Redesigned Hero Banner Card and Hotspots */
+.hero-banner-card {
+  position: relative;
+  height: 290px; /* Taller to accommodate absolute hotspots beautifully */
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: url('/images/hydro-banner.jpg') center center / cover no-repeat;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px;
+}
+
+.hero-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0.05) 100%);
+  z-index: 1;
+}
+
+.hero-banner-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.hero-banner-title {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  max-width: 480px;
+  letter-spacing: -0.8px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-banner-btn {
+  background: #a2c579; /* Lime green from mockup */
+  color: #1a3a1f;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 10px rgba(162, 197, 121, 0.3);
+}
+
+.hero-banner-btn:hover {
+  background: #b2d589;
+  transform: translateY(-1px);
+}
+
+/* Floating Hotspots styling */
+.hero-hotspots-container {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none; /* Let clicks pass through overlay unless on interactive hotspots */
+}
+
+.floating-hotspot {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  transition: transform var(--transition-fast);
+}
+
+.floating-hotspot:hover {
+  transform: scale(1.05);
+}
+
+/* Hotspot badge - small circle with icon */
+.hotspot-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.hotspot-badge:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* Hotspot label - text capsule pill */
+.hotspot-label {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #1f2937;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+}
+
+/* Hotspot connectors */
+.hotspot-connector {
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+}
+
+/* Specific positions & directions based on mockup */
+/* Light Hotspot: Badge is left, line goes right to Light capsule */
+.light-hotspot {
+  top: 25%;
+  left: 64%;
+  gap: 12px;
+}
+.light-hotspot .hotspot-connector {
+  height: 1.5px;
+  width: 36px;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+
+/* Water Hotspot: Badge is top, line goes down to Water capsule */
+.water-hotspot {
+  top: 15%;
+  left: 83%;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.water-hotspot .hotspot-connector {
+  width: 1.5px;
+  height: 36px;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+/* Temperature Hotspot: Badge is bottom, line goes up to Temperature capsule */
+.temp-hotspot {
+  top: 45%;
+  left: 30%;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 16px;
+}
+.temp-hotspot .hotspot-connector {
+  width: 1.5px;
+  height: 36px;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+/* Air Circulation Hotspot: Badge is right, line goes left to Air Circulation capsule */
+.air-hotspot {
+  top: 55%;
+  left: 48%;
+  flex-direction: row-reverse;
+  gap: 12px;
+}
+.air-hotspot .hotspot-connector {
+  height: 1.5px;
+  width: 36px;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+
+/* --- Recommendations Section --- */
+.recommendation-section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.recommendation-section-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recommendation-see-all {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-decoration: none;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.recommendation-item-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-item-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.recommendation-item-card.active {
+  border-color: var(--primary);
+  border-width: 2px;
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.recommendation-item-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.recommendation-item-info {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-item-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.recommendation-item-species {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   DASHBOARD HERO HEADLINE — TOP HIGHLIGHT SECTION
+   ═══════════════════════════════════════════════════════ */
+
+.dashboard-hero-headline {
+  position: relative;
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 30%, #047857 60%, #1a1a2e 100%);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(6, 78, 59, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.15);
+}
+
+/* Glowing animated orb behind the text */
+.dashboard-hero-headline::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: heroOrb 6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Subtle grid/dot texture overlay */
+.dashboard-hero-headline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+@keyframes heroOrb {
+  from { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  to   { transform: translate(-20px, 20px) scale(1.15); opacity: 1; }
+}
+
+.hero-headline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(110, 231, 183, 0.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  width: fit-content;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-headline-title {
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+  color: #ffffff;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-headline-accent {
+  background: linear-gradient(90deg, #6ee7b7, #34d399, #a7f3d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: accentShimmer 4s linear infinite;
+  background-size: 200% auto;
+}
+
+@keyframes accentShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-headline-sub {
+  font-size: 12px;
+  color: rgba(167, 243, 208, 0.75);
+  font-weight: 500;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.hero-headline-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid rgba(110, 231, 183, 0.4);
+  background: transparent;
+  color: #6ee7b7;
+  transition: all 200ms ease;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-headline-secondary-btn:hover {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #6ee7b7;
+  color: #fff;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE SIMULATOR SETTINGS SCREEN (SCREEN 5) STYLES
+   ═══════════════════════════════════════════════════════ */
+
+.sim-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.phone-dark-mode .sim-profile-card {
+  background: rgba(30, 41, 59, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none;
+}
+
+.profile-avatar-container {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--blue) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  border: 2px solid white;
+  box-shadow: var(--shadow-sm);
+}
+
+.phone-dark-mode .profile-avatar {
+  border-color: #1e293b;
+}
+
+.profile-badge-online {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid white;
+  box-shadow: var(--shadow-sm);
+}
+
+.phone-dark-mode .profile-badge-online {
+  border-color: #1e293b;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.profile-role {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+/* System Image Card in Settings */
+.settings-system-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card) !important;
+}
+
+.phone-dark-mode .settings-system-card {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(30, 41, 59, 0.3) !important;
+  box-shadow: none;
+}
+
+.settings-system-img-wrapper {
+  position: relative;
+  height: 140px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.settings-system-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.settings-system-card:hover .settings-system-img {
+  transform: scale(1.03);
+}
+
+.settings-system-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.1) 100%);
+}
+
+.settings-system-text {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  right: 14px;
+  z-index: 5;
+}
+
+.settings-system-title {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0;
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+.settings-system-sub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin: 2px 0 0 0;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.settings-system-details {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.system-details-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  padding-bottom: 6px;
+}
+
+.system-details-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.phone-dark-mode .system-details-row {
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+}
+
+.system-details-label {
+  color: var(--text-tertiary);
+}
+
+.system-details-val {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* Settings Sections Layout */
+.settings-section-header {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+  margin-top: 4px;
+  padding-left: 2px;
+}
+
+.settings-group-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-dark-mode .settings-group-card {
+  background: rgba(30, 41, 59, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.phone-dark-mode .settings-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.settings-row.clickable {
+  cursor: pointer;
+}
+
+.settings-row.clickable:hover {
+  background: var(--bg-card-hover);
+}
+
+.phone-dark-mode .settings-row.clickable:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.settings-row-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-row-icon-bg {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.settings-row-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-row-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.settings-row-desc {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+.settings-row-value {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   INA219 SOLAR & BATTERY ENERGY MONITOR STYLES
+   ═══════════════════════════════════════════════════════ */
+
+.energy-monitor-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.energy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.energy-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.energy-subtitle {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: -8px;
+}
+
+.energy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.energy-card-sub {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.energy-sub-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.energy-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.energy-metric-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.energy-metric-label {
+  color: var(--text-secondary);
+}
+
+.energy-metric-val {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Battery status section */
+.battery-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+}
+
+.battery-visual-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.battery-icon-simulated {
+  width: 44px;
+  height: 22px;
+  border: 2px solid var(--text-main);
+  border-radius: 4px;
+  padding: 2px;
+  position: relative;
+  display: flex;
+}
+
+.phone-dark-mode .battery-icon-simulated,
+.desktop-layout .battery-icon-simulated {
+  border-color: var(--text-main);
+}
+
+.battery-icon-simulated::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 4px;
+  width: 3px;
+  height: 10px;
+  background: var(--text-main);
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.battery-level-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+
+.battery-text-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.battery-percent {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.battery-charging-status {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.battery-charging-status.discharging {
+  color: var(--text-muted);
+}
+
+/* Mobile energy card styling */
+.mobile-energy-pill {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+}
+
+
+
