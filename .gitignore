@@ -22,3 +22,16 @@ yarn-error.log*
 # System files
 .DS_Store
 Thumbs.db
+
+# Portable JDKs
+jdk/
+jdk21/
+
+# Native app build outputs & configurations
+*.apk
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/android/app/build/
+frontend/ios/App/Pods/
+frontend/ios/App/build/
+

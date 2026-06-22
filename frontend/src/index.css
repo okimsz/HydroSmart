@@ -2951,5 +2951,147 @@ input:checked + .sim-slider:before {
   border: 1px solid var(--border-color);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   MOBILE RESPONSIVE WEB STYLES (WEB DASHBOARD ON SMARTPHONES)
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .app-header {
+    height: auto;
+    padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .header-left {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .header-center {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 4px;
+  }
+
+  /* Stack main desktop sidebar and panels */
+  .desktop-layout {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .desktop-sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 12px 16px;
+    gap: 0;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    order: 2; /* Position nav below content in mobile view, or top as desired */
+  }
+
+  .sidebar-divider {
+    display: none;
+  }
+
+  .desktop-content {
+    padding: 16px;
+    overflow: visible;
+    height: auto;
+    width: 100%;
+  }
+
+  /* Two-column overview grid stacks on mobile browsers */
+  .dashboard-redesign-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .dashboard-redesign-col {
+    gap: 20px;
+  }
+
+  /* Grid details */
+  .parameters-grid {
+    grid-template-columns: 1fr 1fr; /* Keep parameter readouts in two columns */
+    gap: 10px;
+  }
+
+  .recommendations-grid {
+    grid-template-columns: 1fr; /* Stack crops */
+    gap: 10px;
+  }
+
+  .energy-grid {
+    grid-template-columns: 1fr; /* Stack Solar / Load power details */
+    gap: 12px;
+  }
+
+  /* Weather panel layouts */
+  .weather-widget {
+    min-height: auto;
+  }
+
+  .weather-main {
+    justify-content: space-around;
+    gap: 16px;
+  }
+
+  /* Layout Map stacks vertically */
+  .map-view-container {
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+  }
+
+  .map-left-panel,
+  .map-canvas-container,
+  .map-right-panel {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .map-canvas-view {
+    height: 300px;
+    max-height: 350px;
+  }
+
+  /* Prevent floating layout Map hotspots overlapping on small mobile browsers */
+  .map-hotspot-label {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .overall-health-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .sections-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}
+
+
 
 
