@@ -139,8 +139,8 @@ body {
 }
 
 .brand-name {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
   color: var(--text-main);
   letter-spacing: -0.5px;
 }

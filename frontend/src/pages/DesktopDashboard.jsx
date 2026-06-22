@@ -131,7 +131,7 @@ export default function DesktopDashboard() {
       {/* ── HEADER ── */}
       <header className="app-header">
         <div className="header-left">
-          <img src="/logo.png" alt="Hydrosmart Logo" style={{ height: '36px', width: 'auto', marginRight: '8px', objectFit: 'contain' }} />
+          <img src="/logo.png" alt="Hydrosmart Logo" style={{ height: '46px', width: 'auto', marginRight: '8px', objectFit: 'contain' }} />
           <h1 className="brand-name">HydroSmart</h1>
         </div>
 
