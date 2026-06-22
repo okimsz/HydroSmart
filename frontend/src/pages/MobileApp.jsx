@@ -245,9 +245,9 @@ export default function MobileApp() {
         {/* Screen 1: Dashboard Overview */}
         {mobileScreen === 1 && (
           <>
-            <div className="sim-mobile-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px', marginTop: '4px' }}>
-              <img src="/logo.png" alt="Hydrosmart Logo" style={{ height: '26px', width: 'auto', objectFit: 'contain' }} />
-              <span style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.5px' }}>HydroSmart</span>
+            <div className="sim-mobile-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '18px', marginTop: '8px' }}>
+              <img src="/logo.png" alt="Hydrosmart Logo" style={{ height: '38px', width: 'auto', objectFit: 'contain' }} />
+              <span style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.5px' }}>HydroSmart</span>
             </div>
 
             <div className="sim-weather-card">
@@ -273,51 +273,51 @@ export default function MobileApp() {
             </div>
 
             {/* MLP Dosing Output Overview card */}
-            <div className="glass-panel-card" style={{ gap: '10px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase' }}>
+            <div className="glass-panel-card" style={{ gap: '12px' }}>
+              <span style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase' }}>
                 MLP Dosing Output
               </span>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                <div style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
-                  <div style={{ fontSize: '9px', color: 'var(--text-tertiary)' }}>NUTRIENT A</div>
-                  <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--primary)' }}>{dosing.nutrientA_ml} mL</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 600 }}>NUTRIENT A</div>
+                  <div style={{ fontSize: '22px', fontWeight: 700, color: 'var(--primary)', marginTop: '4px' }}>{dosing.nutrientA_ml} mL</div>
                 </div>
-                <div style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
-                  <div style={{ fontSize: '9px', color: 'var(--text-tertiary)' }}>NUTRIENT B</div>
-                  <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--blue)' }}>{dosing.nutrientB_ml} mL</div>
+                <div style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 600 }}>NUTRIENT B</div>
+                  <div style={{ fontSize: '22px', fontWeight: 700, color: 'var(--blue)', marginTop: '4px' }}>{dosing.nutrientB_ml} mL</div>
                 </div>
               </div>
             </div>
 
             {/* Dosing parameters panel */}
-            <div className="glass-panel-card" style={{ gap: '10px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase' }}>
+            <div className="glass-panel-card" style={{ gap: '12px' }}>
+              <span style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase' }}>
                 IoT Real-time Metrics
               </span>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                <div style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
-                  <div style={{ fontSize: '9px', color: 'var(--text-tertiary)' }}>pH LEVEL</div>
-                  <div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--primary)' }}>{sensors.ph}</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 600 }}>pH LEVEL</div>
+                  <div style={{ fontSize: '22px', fontWeight: 700, color: 'var(--primary)', marginTop: '4px' }}>{sensors.ph}</div>
                 </div>
-                <div style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
-                  <div style={{ fontSize: '9px', color: 'var(--text-tertiary)' }}>WATER LEVEL</div>
-                  <div style={{ fontSize: '16px', fontWeight: 700 }}>{sensors.waterLevel}%</div>
+                <div style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card-hover)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: 600 }}>WATER LEVEL</div>
+                  <div style={{ fontSize: '22px', fontWeight: 700, marginTop: '4px' }}>{sensors.waterLevel}%</div>
                 </div>
               </div>
             </div>
 
             {/* INA219 Energy Monitor (Mobile) */}
-            <div className="glass-panel-card" style={{ gap: '12px' }}>
+            <div className="glass-panel-card" style={{ gap: '14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                  <Zap size={14} style={{ color: 'var(--amber)' }} /> INA219 Power Monitor
+                <span style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Zap size={16} style={{ color: 'var(--amber)' }} /> INA219 Power Monitor
                 </span>
-                <span style={{ fontSize: '9px', fontWeight: 800, padding: '2px 6px', borderRadius: '10px', background: energy.gridActive ? 'var(--blue-glow)' : 'var(--primary-glow)', color: energy.gridActive ? 'var(--blue)' : 'var(--primary)' }}>
+                <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 8px', borderRadius: '12px', background: energy.gridActive ? 'var(--blue-glow)' : 'var(--primary-glow)', color: energy.gridActive ? 'var(--blue)' : 'var(--primary)' }}>
                   {energy.gridActive ? 'GRID' : 'SOLAR'}
                 </span>
               </div>
 
-              <div className="battery-status-bar" style={{ padding: '8px 12px' }}>
+              <div className="battery-status-bar" style={{ padding: '10px 14px' }}>
                 <div className="battery-visual-container">
                   <div className="battery-icon-simulated">
                     <div
@@ -330,8 +330,8 @@ export default function MobileApp() {
                   </div>
                 </div>
                 <div className="battery-text-info">
-                  <span className="battery-percent" style={{ fontSize: '13px' }}>{Math.round(energy.batterySoC)}% Capacity</span>
-                  <span style={{ fontSize: '8px', color: 'var(--text-tertiary)', fontWeight: 600 }}>
+                  <span className="battery-percent" style={{ fontSize: '16px', fontWeight: 700 }}>{Math.round(energy.batterySoC)}% Capacity</span>
+                  <span style={{ fontSize: '10px', color: 'var(--text-tertiary)', fontWeight: 600, marginTop: '2px' }}>
                     {energy.chargingState === 'solar' && 'SOLAR CHARGING ACTIVE'}
                     {energy.chargingState === 'grid' && 'GRID BYPASS CHARGING'}
                     {energy.chargingState === 'discharging' && 'BATTERY POWER DISCHARGING'}
@@ -339,14 +339,14 @@ export default function MobileApp() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <div className="mobile-energy-pill">
-                  <span style={{ color: 'var(--text-secondary)' }}>Solar Harvesting</span>
-                  <span style={{ fontWeight: 700, color: 'var(--amber)' }}>{energy.solarPower.toFixed(1)} W <span style={{ fontSize: '9px', fontWeight: 500, color: 'var(--text-tertiary)' }}>({energy.solarVoltage.toFixed(1)}V @ {(energy.solarCurrent / 1000).toFixed(2)}A)</span></span>
+                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Solar Harvesting</span>
+                  <span style={{ fontWeight: 700, color: 'var(--amber)' }}>{energy.solarPower.toFixed(1)} W <span style={{ fontSize: '11px', fontWeight: 500, color: 'var(--text-tertiary)' }}>({energy.solarVoltage.toFixed(1)}V @ {(energy.solarCurrent / 1000).toFixed(2)}A)</span></span>
                 </div>
                 <div className="mobile-energy-pill">
-                  <span style={{ color: 'var(--text-secondary)' }}>System Load</span>
-                  <span style={{ fontWeight: 700, color: 'var(--blue)' }}>{energy.loadPower.toFixed(1)} W <span style={{ fontSize: '9px', fontWeight: 500, color: 'var(--text-tertiary)' }}>({energy.loadVoltage.toFixed(1)}V @ {(energy.loadCurrent / 1000).toFixed(2)}A)</span></span>
+                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>System Load</span>
+                  <span style={{ fontWeight: 700, color: 'var(--blue)' }}>{energy.loadPower.toFixed(1)} W <span style={{ fontSize: '11px', fontWeight: 500, color: 'var(--text-tertiary)' }}>({energy.loadVoltage.toFixed(1)}V @ {(energy.loadCurrent / 1000).toFixed(2)}A)</span></span>
                 </div>
               </div>
             </div>
