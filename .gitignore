@@ -29,6 +29,7 @@ jdk21/
 
 # Native app build outputs & configurations
 *.apk
+!frontend/public/HydroSmart.apk
 frontend/android/.gradle/
 frontend/android/local.properties
 frontend/android/app/build/
