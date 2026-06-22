@@ -40,11 +40,7 @@ export default function DesktopDashboard() {
   const [connected, setConnected] = useState(true);
 
   // --- UI Presentation State ---
-  const [layoutMode, setLayoutMode] = useState('desktop'); // 'desktop' or 'mobile' (simulator)
   const [desktopTab, setDesktopTab] = useState('overview'); // 'overview' or 'map'
-
-  // Mobile Simulator settings
-  const [phoneTheme, setPhoneTheme] = useState('light');
 
   // Selected Greenhouse Section
   const [activeSectionId, setActiveSectionId] = useState(3);
@@ -139,22 +135,6 @@ export default function DesktopDashboard() {
           <h1 className="brand-name">HydroSmart</h1>
         </div>
 
-        <div className="header-center">
-          <div className="view-mode-selector">
-            <button
-              className={`view-mode-btn ${layoutMode === 'desktop' ? 'active' : ''}`}
-              onClick={() => setLayoutMode('desktop')}
-            >
-              <Monitor size={15} /> Dashboard
-            </button>
-            <button
-              className={`view-mode-btn ${layoutMode === 'mobile' ? 'active' : ''}`}
-              onClick={() => setLayoutMode('mobile')}
-            >
-              <Smartphone size={15} /> Mobile View
-            </button>
-          </div>
-        </div>
 
         <div className="header-right">
           <div className="system-status-indicator">
@@ -168,8 +148,7 @@ export default function DesktopDashboard() {
       </header>
 
       {/* ── DESKTOP DASHBOARD MODE ── */}
-      {layoutMode === 'desktop' && (
-        <div className="desktop-layout">
+      <div className="desktop-layout">
           {/* Sidebar */}
           <nav className="desktop-sidebar">
             <button
@@ -762,54 +741,6 @@ export default function DesktopDashboard() {
             )}
           </main>
         </div>
-      )}
-
-      {/* ── MOBILE APP SIMULATOR MODE ── */}
-      {layoutMode === 'mobile' && (
-        <div className="mobile-simulator-layout">
-          {/* Simulator options sidebar */}
-          <div className="phone-theme-toggle">
-            <button
-              className={`phone-toggle-option ${phoneTheme === 'light' ? 'active' : ''}`}
-              onClick={() => setPhoneTheme('light')}
-            >
-              ☀️ Light UI
-            </button>
-            <button
-              className={`phone-toggle-option ${phoneTheme === 'dark' ? 'active' : ''}`}
-              onClick={() => setPhoneTheme('dark')}
-            >
-              🌙 Dark UI
-            </button>
-            {/* Pop-out link for actual fullscreen testing */}
-            <a
-              href={`/mobile?theme=${phoneTheme}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="phone-toggle-option"
-              style={{ textDecoration: 'none', background: 'var(--bg-panel)', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '8px' }}
-            >
-              🚀 Fullscreen App <Maximize2 size={12} />
-            </a>
-          </div>
-
-          {/* iPhone Mockup Frame containing iframe */}
-          <div className={`mobile-phone-shell ${phoneTheme === 'light' ? 'phone-light-mode' : 'phone-dark-mode'}`}>
-            <iframe
-              src={`/mobile?sim=true&theme=${phoneTheme}`}
-              style={{
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                background: 'transparent',
-                borderRadius: '28px',
-                overflow: 'hidden'
-              }}
-              title="HydroSmart Mobile App Simulator"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

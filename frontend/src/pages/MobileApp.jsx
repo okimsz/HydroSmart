@@ -46,7 +46,7 @@ export default function MobileApp() {
   const [phoneTheme, setPhoneTheme] = useState(() => {
     // Sync with main page or search param if available
     const theme = new URLSearchParams(window.location.search).get('theme');
-    return theme === 'dark' ? 'dark' : 'light';
+    return theme === 'light' ? 'light' : 'dark';
   });
   const [mobileScreen, setMobileScreen] = useState(1); // 1: Dashboard, 2: Monitor, 3: Details/Scheduler, 4: Growth, 5: Settings
   const [mobileCropsTab, setMobileCropsTab] = useState('lettuce');
