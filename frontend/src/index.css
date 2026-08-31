@@ -104,6 +104,7 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  color: var(--text-main);
 }
 
 /* ── Header ── */
@@ -3303,6 +3304,49 @@ input:checked + .sim-slider:before {
   40% { width: 45%; }
   70% { width: 85%; }
   100% { width: 100%; }
+}
+
+/* ── Desktop Dashboard Dark Mode Overrides ── */
+.phone-dark-mode .app-header {
+  background: rgba(9, 13, 22, 0.85) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.phone-dark-mode .view-mode-selector {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.phone-dark-mode .view-mode-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.phone-dark-mode .task-item {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: white !important;
+}
+
+.phone-dark-mode .task-title {
+  color: white !important;
+}
+
+.phone-dark-mode .task-item.completed .task-title {
+  color: var(--text-tertiary) !important;
+}
+
+/* Text Color Utility Classes */
+.text-main {
+  color: var(--text-main) !important;
+}
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+.text-tertiary {
+  color: var(--text-tertiary) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
 }
 
 
