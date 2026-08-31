@@ -258,12 +258,12 @@ app.post('/api/dosing/override', (req, res) => {
 
 const path = require('path');
 
-// Serve static assets in production (React/Vite build folder)
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
+// Serve static assets in production (React/Vite build folder is sibling to backend folder)
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // Fallback all other routes to frontend SPA router
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 // Start

@@ -234,22 +234,29 @@ void checkFirebaseOverrides() {
 
 ## 5. Local Development & Deployment Guide
 
+### Folder Structure
+```text
+├── backend/               # Express API and telemetry simulator
+│   ├── server.js
+│   └── package.json
+├── frontend/              # Vite React web application client
+│   ├── src/
+│   └── package.json
+├── package.json           # Root workspace scripts
+└── README.md              # Project documentation
+```
+
 ### Local Development Setup
 1. Clone the repository to your desktop machine.
-2. Install root server dependencies:
+2. Install all dependencies across root, backend, and frontend folders at once:
    ```bash
-   npm install
+   npm run install-all
    ```
-3. Install React client dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-4. Run the development server (runs mock Express server on port `5000` and Vite client):
+3. Run the development server (runs mock Express server on port `5000` and Vite client):
    ```bash
    npm run dev
    ```
-5. Open your browser and navigate to `http://localhost:5000`.
+4. Open your browser and navigate to `http://localhost:5000`.
 
 ### Production Deployment to Render
 To deploy this system to **Render.com** (serving both the API and client from a single Web Service):
@@ -257,6 +264,6 @@ To deploy this system to **Render.com** (serving both the API and client from a 
 2. Create a new **Web Service**.
 3. Configure the build parameters:
    - **Environment**: `Node`
-   - **Build Command**: `npm run build` *(This builds both client bundles and moves them to Express static public folder)*
-   - **Start Command**: `node server.js`
+   - **Build Command**: `npm run build` *(Installs all packages, compiles React assets, and stages public folders)*
+   - **Start Command**: `node backend/server.js`
 4. The service will build, bundle the React production package, and host the live IoT dashboard publicly!
