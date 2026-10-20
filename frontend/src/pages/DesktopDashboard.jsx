@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Home, Compass, Cpu, Activity, Settings } from 'lucide-react';
 import { GREENHOUSE_SECTIONS } from '../shared/constants';
 import {
-  USE_FIREBASE, getTelemetryFromFirebase, updateOverrideInFirebase, selectCropInFirebase
+  isFirebaseEnabled, getTelemetryFromFirebase, updateOverrideInFirebase, selectCropInFirebase
 } from '../shared/firebaseService';
 
 // Import Tab Components
@@ -13,9 +13,10 @@ import GrowthTab from '../components/dashboard/GrowthTab';
 import SettingsTab from '../components/dashboard/SettingsTab';
 
 const fallbackCropProfiles = {
-  lettuce: { phMin: 5.5, phMax: 6.5, ecMin: 1.2, ecMax: 1.8, tempMin: 18, tempMax: 24, ratioA: 2.0, ratioB: 2.0 },
-  pechay: { phMin: 6.0, phMax: 7.0, ecMin: 1.5, ecMax: 2.5, tempMin: 20, tempMax: 30, ratioA: 2.5, ratioB: 2.5 },
-  spinach: { phMin: 6.0, phMax: 6.8, ecMin: 1.8, ecMax: 2.3, tempMin: 15, tempMax: 20, ratioA: 1.8, ratioB: 1.8 }
+  lettuce: { phMin: 5.5, phMax: 6.5, ecMin: 1.2, ecMax: 1.8, tempMin: 18, tempMax: 24, ratioA: 2.0, ratioB: 2.0, maturityDays: 30 },
+  pechay: { phMin: 6.0, phMax: 7.0, ecMin: 1.5, ecMax: 2.5, tempMin: 20, tempMax: 30, ratioA: 2.5, ratioB: 2.5, maturityDays: 25 },
+  spinach: { phMin: 6.0, phMax: 6.8, ecMin: 1.8, ecMax: 2.3, tempMin: 15, tempMax: 20, ratioA: 1.8, ratioB: 1.8, maturityDays: 35 },
+  basil: { phMin: 5.5, phMax: 6.5, ecMin: 1.0, ecMax: 1.6, tempMin: 20, tempMax: 28, ratioA: 1.8, ratioB: 1.8, maturityDays: 35 }
 };
 
 export default function DesktopDashboard() {
@@ -30,7 +31,13 @@ export default function DesktopDashboard() {
   });
   const [dosing, setDosing] = useState({
     nutrientA_ml: 2.4, nutrientB_ml: 1.8, phUp_ml: 0.0, phDown_ml: 0.6,
-    mlpConfidence: 94.2, lastInference: new Date().toISOString(), manualOverride: false
+    mlpConfidence: 94.2, lastInference: new Date().toISOString(), manualOverride: false,
+    lastPumped: {
+      nutrientA: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+      nutrientB: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+      phUp: new Date(Date.now() - 135 * 60 * 1000).toISOString(),
+      phDown: new Date(Date.now() - 38 * 60 * 1000).toISOString()
+    }
   });
   const [overrides, setOverrides] = useState({
     waterPump: true, growLights: true, exhaustFan: false, dosingPumps: true
@@ -40,6 +47,25 @@ export default function DesktopDashboard() {
   const [cropProfile, setCropProfile] = useState(null);
   const [history, setHistory] = useState([]);
   const [connected, setConnected] = useState(true);
+  // Live pumping activity logs (from Firebase or local simulator)
+  const [pumpingLogs, setPumpingLogs] = useState([]);
+  // Historical sensor readings logs (never overwrite or delete previous readings)
+  const [sensorLogs, setSensorLogs] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hydrosmart_sensor_history_log');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+  // Per-pump independent last-activated timestamps (ISO string or null)
+  const [pumpTimestamps, setPumpTimestamps] = useState({
+    nutrientA: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+    nutrientB: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+    phUp: new Date(Date.now() - 135 * 60 * 1000).toISOString(),
+    phDown: new Date(Date.now() - 38 * 60 * 1000).toISOString()
+  });
+
 
   // --- Scheduler & Settings Integration (from Mobile) ---
   const [selectedCropTab, setSelectedCropTab] = useState('lettuce');
@@ -56,7 +82,34 @@ export default function DesktopDashboard() {
   const [manualTimeLeft, setManualTimeLeft] = useState(0);
   const [criticalAlerts, setCriticalAlerts] = useState(true);
   const [energySaver, setEnergySaver] = useState(false);
-  const [dashboardTheme, setDashboardTheme] = useState('dark');
+  const [dashboardTheme, setDashboardTheme] = useState(() => {
+    return localStorage.getItem('hydrosmart_theme') || 'light';
+  });
+
+  const handleThemeChange = (newTheme) => {
+    setDashboardTheme(newTheme);
+    localStorage.setItem('hydrosmart_theme', newTheme);
+  };
+
+  // --- Dynamic Greenhouse Sections State (User Editable) ---
+  const [greenhouseSections, setGreenhouseSections] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hydrosmart_greenhouse_sections');
+      return saved ? JSON.parse(saved) : GREENHOUSE_SECTIONS;
+    } catch (e) {
+      return GREENHOUSE_SECTIONS;
+    }
+  });
+
+  const updateGreenhouseSection = (id, updatedFields) => {
+    setGreenhouseSections(prev => {
+      const next = prev.map(s => s.id === id ? { ...s, ...updatedFields } : s);
+      try {
+        localStorage.setItem('hydrosmart_greenhouse_sections', JSON.stringify(next));
+      } catch (e) {}
+      return next;
+    });
+  };
 
   // --- Editable Owner Info States ---
   const [ownerName, setOwnerName] = useState(' Rene Baterbonia');
@@ -76,13 +129,62 @@ export default function DesktopDashboard() {
   // Dynamic Clock
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Task checklist state
-  const [tasks, setTasks] = useState([
-    { id: 1, title: 'pH Probe Calibration', desc: 'Recalibrate sensor using pH 4.01 and 7.00 solutions', time: '07:00 AM - 07:30 AM', completed: false },
-    { id: 2, title: 'Fertilizing', desc: 'Apply organic fertilizer to base of plants. Quantity: 50g per plant', time: '08:00 AM - 08:30 AM', completed: true },
-    { id: 3, title: 'Plant Inspection', desc: 'Check leaves for any signs of pests or yellowing', time: '10:00 AM - 11:00 AM', completed: false },
-    { id: 4, title: 'Soil Aeration', desc: 'Loosen soil around the roots', time: '02:00 PM - 03:00 PM', completed: false }
-  ]);
+  // Helper to determine if task scheduled time has passed
+  const checkIsTaskTimePassed = (timeStr, now = new Date()) => {
+    if (!timeStr) return false;
+    try {
+      const parts = timeStr.split('-');
+      const endStr = (parts[parts.length - 1] || parts[0]).trim();
+      const match = endStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+      if (!match) return false;
+      let [_, hStr, mStr, meridiem] = match;
+      let hours = parseInt(hStr, 10);
+      const minutes = parseInt(mStr, 10);
+      if (meridiem.toUpperCase() === 'PM' && hours < 12) hours += 12;
+      if (meridiem.toUpperCase() === 'AM' && hours === 12) hours = 0;
+
+      const targetTime = new Date(now);
+      targetTime.setHours(hours, minutes, 0, 0);
+      return now.getTime() >= targetTime.getTime();
+    } catch (e) {
+      return false;
+    }
+  };
+
+  // Initial Task checklist state (with auto-completed check)
+  const [tasks, setTasks] = useState(() => {
+    const initialList = [
+      { id: 1, title: 'pH Probe Calibration', desc: 'Recalibrate sensor using pH 4.01 and 7.00 solutions', time: '07:00 AM - 07:30 AM', completed: false },
+      { id: 2, title: 'Fertilizing', desc: 'Apply organic fertilizer to base of plants. Quantity: 50g per plant', time: '08:00 AM - 08:30 AM', completed: true },
+      { id: 3, title: 'Plant Inspection', desc: 'Check leaves for any signs of pests or yellowing', time: '10:00 AM - 11:00 AM', completed: false },
+      { id: 4, title: 'Soil Aeration', desc: 'Loosen soil around the roots', time: '02:00 PM - 03:00 PM', completed: false }
+    ];
+    const now = new Date();
+    return initialList.map(task => {
+      const passed = checkIsTaskTimePassed(task.time, now);
+      return {
+        ...task,
+        completed: passed ? true : task.completed,
+        autoCompleted: passed
+      };
+    });
+  });
+
+  // Automatically update and check off completed tasks as time passes
+  useEffect(() => {
+    setTasks(prevTasks => {
+      let changed = false;
+      const nextTasks = prevTasks.map(t => {
+        const passed = checkIsTaskTimePassed(t.time, currentTime);
+        if (passed && !t.completed) {
+          changed = true;
+          return { ...t, completed: true, autoCompleted: true };
+        }
+        return t;
+      });
+      return changed ? nextTasks : prevTasks;
+    });
+  }, [currentTime]);
 
   // --- Clock Trigger ---
   useEffect(() => {
@@ -93,14 +195,19 @@ export default function DesktopDashboard() {
   // --- API Polling ---
   const fetchData = useCallback(async () => {
     try {
-      let data;
-      if (USE_FIREBASE) {
+      let data = null;
+      if (isFirebaseEnabled()) {
         data = await getTelemetryFromFirebase();
-        if (!data) throw new Error("Could not retrieve telemetry from Firebase Realtime Database");
-      } else {
-        const res = await fetch('/api/telemetry');
-        data = await res.json();
       }
+      if (!data) {
+        // Fallback to local API simulator so dashboard remains responsive
+        const res = await fetch('/api/telemetry');
+        if (res.ok) {
+          data = await res.json();
+        }
+      }
+      if (!data) throw new Error("Could not retrieve telemetry");
+
       setSensors(data.sensors);
       setEnergy(data.energy);
       setDosing(data.dosing);
@@ -110,10 +217,70 @@ export default function DesktopDashboard() {
       setCropProfile(data.cropProfile || fallbackCropProfiles[data.activeCrop || 'lettuce']);
       setHistory(data.history || []);
       setConnected(true);
+
+      // Update pumping logs (Firebase: real events; local: simulated)
+      if (data.pumpingLogs && data.pumpingLogs.length > 0) {
+        setPumpingLogs(data.pumpingLogs);
+      }
+
+      // Update per-pump independent timestamps from Firebase pump_events or local dosing.lastPumped
+      if (data.pumpTimestamps) {
+        setPumpTimestamps(prev => ({
+          nutrientA: data.pumpTimestamps.nutrientA || prev.nutrientA,
+          nutrientB: data.pumpTimestamps.nutrientB || prev.nutrientB,
+          phUp:      data.pumpTimestamps.phUp      || prev.phUp,
+          phDown:    data.pumpTimestamps.phDown    || prev.phDown
+        }));
+      } else if (data.dosing?.lastPumped) {
+        // Local simulator: pick up per-pump timestamps from dosing.lastPumped
+        setPumpTimestamps(prev => ({
+          nutrientA: data.dosing.lastPumped.nutrientA || prev.nutrientA,
+          nutrientB: data.dosing.lastPumped.nutrientB || prev.nutrientB,
+          phUp:      data.dosing.lastPumped.phUp      || prev.phUp,
+          phDown:    data.dosing.lastPumped.phDown    || prev.phDown
+        }));
+      }
+      // Update historical sensor logs — preserve every reading without overwriting
+      if (data.sensorLogs && data.sensorLogs.length > 0) {
+        setSensorLogs(prev => {
+          const merged = [...data.sensorLogs];
+          const existingIds = new Set(data.sensorLogs.map(l => l.id || l.timestamp));
+          prev.forEach(item => {
+            const id = item.id || item.timestamp;
+            if (!existingIds.has(id)) merged.push(item);
+          });
+          merged.sort((a, b) => b.timestamp - a.timestamp);
+          try { localStorage.setItem('hydrosmart_sensor_history_log', JSON.stringify(merged.slice(0, 500))); } catch (e) {}
+          return merged;
+        });
+      } else if (data.sensors) {
+        setSensorLogs(prev => {
+          const now = Date.now();
+          // Check if latest item is within 2s to avoid identical duplicates
+          if (prev.length > 0 && now - prev[0].timestamp < 2000) return prev;
+          const newEntry = {
+            id: `sensor-${now}`,
+            timestamp: now,
+            date: new Date(now).toISOString().slice(0, 10),
+            time: new Date(now).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+            ph: data.sensors.ph,
+            tds: data.sensors.tds,
+            ec: data.sensors.ec,
+            waterTemp: data.sensors.waterTemp,
+            waterLevel: data.sensors.waterLevel,
+            airTemp: data.sensors.airTemp,
+            humidity: data.sensors.humidity
+          };
+          const next = [newEntry, ...prev.slice(0, 499)];
+          try { localStorage.setItem('hydrosmart_sensor_history_log', JSON.stringify(next)); } catch (e) {}
+          return next;
+        });
+      }
     } catch (e) {
       setConnected(false);
     }
   }, []);
+
 
   useEffect(() => {
     fetchData();
@@ -124,15 +291,14 @@ export default function DesktopDashboard() {
   // --- API Interactive Actions ---
   const selectCrop = async (crop) => {
     try {
-      if (USE_FIREBASE) {
+      if (isFirebaseEnabled()) {
         await selectCropInFirebase(crop, activeStage);
-      } else {
-        await fetch('/api/crop-profile', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ crop, stage: activeStage })
-        });
       }
+      await fetch('/api/crop-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ crop, stage: activeStage })
+      });
       setActiveCrop(crop);
     } catch (e) { /* swallow */ }
   };
@@ -257,16 +423,19 @@ export default function DesktopDashboard() {
 
   const getSectionSensors = (sectionId) => {
     const seed = sectionId * 1.5;
+    const ecVal = +(sensors.ec + (Math.cos(seed) * 0.1)).toFixed(2);
+    const tdsVal = Math.round(ecVal * 500);
     return {
       ph: +(sensors.ph + (Math.sin(seed) * 0.15)).toFixed(1),
-      ec: +(sensors.ec + (Math.cos(seed) * 0.1)).toFixed(2),
+      ec: ecVal,
+      tds: tdsVal,
       humidity: Math.round(sensors.humidity + (Math.cos(seed) * 4)),
       waterLevel: Math.round(sensors.waterLevel + (Math.sin(seed * 2) * 3)),
       temperature: +(sensors.waterTemp + (Math.cos(seed * 1.5) * 1.2)).toFixed(1)
     };
   };
 
-  const activeSectionData = GREENHOUSE_SECTIONS.find(s => s.id === activeSectionId);
+  const activeSectionData = greenhouseSections.find(s => s.id === activeSectionId) || greenhouseSections[0];
   const activeSectionSensors = activeSectionData ? getSectionSensors(activeSectionData.id) : null;
 
   return (
@@ -279,10 +448,6 @@ export default function DesktopDashboard() {
         </div>
 
         <div className="header-right">
-          <div className="system-status-indicator">
-            <div className="status-indicator-dot" />
-            <span>{connected ? 'ONLINE' : 'OFFLINE'}</span>
-          </div>
           <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)' }}>
             {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
           </span>
@@ -350,8 +515,14 @@ export default function DesktopDashboard() {
               currentTime={currentTime}
               farmLocation={farmLocation}
               setDesktopTab={setDesktopTab}
+              greenhouseSections={greenhouseSections}
+              updateGreenhouseSection={updateGreenhouseSection}
+              pumpingLogs={pumpingLogs}
+              pumpTimestamps={pumpTimestamps}
+              sensorLogs={sensorLogs}
             />
           )}
+
 
           {/* VIEW: GREENHOUSE MAP TAB */}
           {desktopTab === 'map' && (
@@ -361,12 +532,17 @@ export default function DesktopDashboard() {
               activeSectionData={activeSectionData}
               activeSectionSensors={activeSectionSensors}
               getSectionHealthColor={getSectionHealthColor}
+              greenhouseSections={greenhouseSections}
+              updateGreenhouseSection={updateGreenhouseSection}
+              setGreenhouseSections={setGreenhouseSections}
             />
           )}
 
           {/* VIEW: MONITOR TAB */}
           {desktopTab === 'monitor' && (
             <MonitorTab
+              sensors={sensors}
+              overrides={overrides}
               selectedCropTab={selectedCropTab}
               setSelectedCropTab={setSelectedCropTab}
               selectCrop={selectCrop}
@@ -386,6 +562,7 @@ export default function DesktopDashboard() {
               manualTimeLeft={manualTimeLeft}
               triggerManualWater={triggerManualWater}
               getNextWateringText={getNextWateringText}
+              greenhouseSections={greenhouseSections}
             />
           )}
 
@@ -393,8 +570,11 @@ export default function DesktopDashboard() {
           {desktopTab === 'growth' && (
             <GrowthTab
               selectedCropTab={selectedCropTab}
+              setSelectedCropTab={setSelectedCropTab}
               activeStage={activeStage}
               cropProfile={cropProfile}
+              greenhouseSections={greenhouseSections}
+              updateGreenhouseSection={updateGreenhouseSection}
             />
           )}
 
@@ -416,7 +596,7 @@ export default function DesktopDashboard() {
               farmLocation={farmLocation}
               setFarmLocation={setFarmLocation}
               dashboardTheme={dashboardTheme}
-              setDashboardTheme={setDashboardTheme}
+              setDashboardTheme={handleThemeChange}
               criticalAlerts={criticalAlerts}
               setCriticalAlerts={setCriticalAlerts}
               energySaver={energySaver}
